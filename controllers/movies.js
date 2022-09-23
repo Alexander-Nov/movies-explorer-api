@@ -5,18 +5,43 @@ const ForbiddenError = require('../errors/ForbiddenError');
 
 const getMovies = (req, res, next) => {
   Movie.find({}).sort({ createdAt: -1 })
-    .then((cards) => res.send(cards))
+    .then((movies) => res.send(movies))
     .catch(next);
 };
 
 const createMovie = (req, res, next) => {
-  const { name, link } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  } = req.body;
   const owner = req.user._id;
-  Movie.create({ name, link, owner })
-    .then((card) => res.send(card))
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+    owner,
+  })
+    .then((createdMovie) => res.send(createdMovie))
     .catch((err) => {
       // eslint-disable-next-line no-underscore-dangle
-      if (err.name === 'ValidationError' || err._message === 'card validation failed') {
+      if (err.name === 'ValidationError' || err._message === 'movie validation failed') {
         next(new ValidationError('Введены некорректные данные при создании карточки'));
       } else {
         next(err);
@@ -29,13 +54,13 @@ const deleteMovie = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Карточка с указанным id не найдена');
     })
-    .then((card) => {
-      const cardOwner = card.owner.toString().replace('new ObjectId("', '');
-      if (cardOwner !== req.user._id) {
+    .then((movie) => {
+      const movieOwner = movie.owner.toString().replace('new ObjectId("', '');
+      if (movieOwner !== req.user._id) {
         next(new ForbiddenError('Можно удалять только свои карточки'));
       } else {
         Movie.findByIdAndRemove(req.params.id)
-          .then((removedCard) => res.send(removedCard));
+          .then((removedMovie) => res.send(removedMovie));
       }
     })
     .catch((err) => {

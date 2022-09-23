@@ -16,7 +16,7 @@ router.post('/', celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(/https?:\/\/(www)?(\.)?[0-9а-яa-zё]{1,}\.[а-яa-zё]{2,4}[a-zа-яё\-._~:/?#[\]@!$&'()*+,;=]*#?/i),
-    trailer: Joi.string().required(),
+    trailerLink: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().regex(/https?:\/\/(www)?(\.)?[0-9а-яa-zё]{1,}\.[а-яa-zё]{2,4}[a-zа-яё\-._~:/?#[\]@!$&'()*+,;=]*#?/i),
@@ -27,7 +27,7 @@ router.post('/', celebrate({
 // удаляет сохранённый фильм по id
 router.delete('/:id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex(), // убедиться потом, что id будет hex
+    id: Joi.string().hex(),
   }),
 }), deleteMovie);
 

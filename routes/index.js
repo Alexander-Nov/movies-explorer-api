@@ -26,7 +26,7 @@ router.post('/signin', celebrate({
 router.use(auth); // авторизация
 
 router.use('/users', userRouter);
-router.use('/cards', movieRouter);
+router.use('/movies', movieRouter);
 
 router.use('*', () => {
   throw new NotFoundError('Данные по указанному запросу не существуют');
