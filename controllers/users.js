@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const errorCodes = require('../errors/errorCodes');
-// const NotFoundError = require('../errors/NotFoundError');
 const ValidationError = require('../errors/ValidationError');
 const DuplicateError = require('../errors/DuplicateError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
@@ -75,44 +74,6 @@ const getUserProfile = (req, res, next) => {
     })
     .catch(next);
 };
-
-// const updateUserAvatar = (req, res, next) => {
-//   const { avatar } = req.body;
-//   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-//     .then((user) => {
-//       res.send(user.deletePasswordFromUser());
-//     })
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new ValidationError('Введены некорректные данные аватара пользователя'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-// const getUsers = (req, res, next) => {
-//   User.find({}, { password: 0 })
-//     .then((users) => res.send(users))
-//     .catch(next);
-// };
-
-// const getUserById = (req, res, next) => {
-//   User.findById(req.params.id)
-//     .orFail(() => {
-//       next(new NotFoundError('Пользователь по заданному id отсутствует в базе'));
-//     })
-//     .then((user) => {
-//       res.send(user);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Введены некорректные данные пользователя'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
 
 module.exports = {
   createUser,

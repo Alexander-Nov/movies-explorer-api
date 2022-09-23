@@ -16,20 +16,4 @@ router.patch('/me', celebrate({
   }),
 }), updateUserProfile);
 
-// router.get('/', getUsers);
-
-// router.get('/:id', celebrate({
-//   params: Joi.object().keys({
-//     id: Joi.string().hex().length(24),
-//   }),
-// }), getUserById);
-
-// router.patch('/me/avatar', celebrate({
-//   body: Joi.object().keys({
-//     avatar: Joi.string()
-//       .pattern(urlRegExp)
-//       .message('Поле "avatar" должно быть валидным url-адресом'),
-//   }),
-// }), updateUserAvatar);
-
 module.exports = router;

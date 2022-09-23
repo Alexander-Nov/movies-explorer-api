@@ -40,8 +40,7 @@ const createMovie = (req, res, next) => {
   })
     .then((createdMovie) => res.send(createdMovie))
     .catch((err) => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (err.name === 'ValidationError' || err._message === 'movie validation failed') {
+      if (err.name === 'ValidationError') {
         next(new ValidationError('Введены некорректные данные при создании карточки'));
       } else {
         next(err);
@@ -71,44 +70,6 @@ const deleteMovie = (req, res, next) => {
       }
     });
 };
-
-// const likeCard = (req, res, next) => {
-//   Movie.findByIdAndUpdate(
-//     req.params.id,
-//     { $addToSet: { likes: req.user._id } },
-//     { new: true },
-//   )
-//     .orFail(() => {
-//       throw new NotFoundError('Карточка с указанным id не найдена');
-//     })
-//     .then((card) => res.send(card))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Переданы некорректные данные для постановки лайка'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-// const dislikeCard = (req, res, next) => {
-//   Movie.findByIdAndUpdate(
-//     req.params.id,
-//     { $pull: { likes: req.user._id } },
-//     { new: true },
-//   )
-//     .orFail(() => {
-//       throw new NotFoundError('Карточка с указанным id не найдена');
-//     })
-//     .then((card) => res.send(card))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Переданы некорректные данные для удаления лайка'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
 
 module.exports = {
   getMovies,

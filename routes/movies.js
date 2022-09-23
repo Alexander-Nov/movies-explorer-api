@@ -31,16 +31,4 @@ router.delete('/:id', celebrate({
   }),
 }), deleteMovie);
 
-// router.put('/:id/likes', celebrate({
-//   params: Joi.object().keys({
-//     id: Joi.string().hex().length(24),
-//   }),
-// }), likeCard);
-
-// router.delete('/:id/likes', celebrate({
-//   params: Joi.object().keys({
-//     id: Joi.string().hex().length(24),
-//   }),
-// }), dislikeCard);
-
 module.exports = router;
