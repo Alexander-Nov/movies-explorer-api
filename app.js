@@ -11,7 +11,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./utils/limiter');
 const { DEFAULT_MONGO_DB_LINK } = require('./utils/config');
 
-const { PORT = 3000, NODE_ENV, MONGO_PROD_DB } = process.env;
+const {
+  PORT = 3000,
+  NODE_ENV = 'develop',
+  MONGO_PROD_DB,
+} = process.env;
 
 const options = {
   origin: [
