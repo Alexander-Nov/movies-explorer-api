@@ -5,6 +5,7 @@ const errorCodes = require('../errors/errorCodes');
 const ValidationError = require('../errors/ValidationError');
 const DuplicateError = require('../errors/DuplicateError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const { DEFAULT_SECRET_KEY } = require('../utils/config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -43,7 +44,7 @@ const login = (req, res, next) => {
           }
           const token = jwt.sign(
             { _id: user._id },
-            NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+            NODE_ENV === 'production' ? JWT_SECRET : DEFAULT_SECRET_KEY,
             { expiresIn: '7d' },
           );
 
@@ -54,12 +55,14 @@ const login = (req, res, next) => {
 };
 
 const updateUserProfile = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then((user) => res.send(user.deletePasswordFromUser()))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Введены некорректные данные при обновлении пользователя'));
+      } else if (err.code === errorCodes.DuplicateErrorCode) {
+        next(new DuplicateError('Пользователь с указанным email уже существует'));
       } else {
         next(err);
       }

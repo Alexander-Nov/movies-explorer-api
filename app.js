@@ -1,14 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const errorHandling = require('./middlewares/errorHandling');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { limiter } = require('./utils/limiter');
+const { DEFAULT_MONGO_DB_LINK } = require('./utils/config');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV, MONGO_PROD_DB } = process.env;
 
 const options = {
   origin: [
@@ -24,14 +27,18 @@ const options = {
 
 const app = express();
 
+app.use(helmet());
+
 app.use('*', cors(options));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
+mongoose.connect(NODE_ENV === 'production' ? MONGO_PROD_DB : DEFAULT_MONGO_DB_LINK);
 
 app.use(requestLogger); // подключаем логгер запросов
+
+app.use(limiter);
 
 app.use(routes);
 

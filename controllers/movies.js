@@ -59,7 +59,8 @@ const deleteMovie = (req, res, next) => {
         next(new ForbiddenError('Можно удалять только свои карточки'));
       } else {
         Movie.findByIdAndRemove(req.params.id)
-          .then((removedMovie) => res.send(removedMovie));
+          .then((removedMovie) => res.send(removedMovie))
+          .catch((err) => next(err));
       }
     })
     .catch((err) => {
