@@ -54,8 +54,7 @@ const deleteMovie = (req, res, next) => {
       throw new NotFoundError('Карточка с указанным id не найдена');
     })
     .then((movie) => {
-      const movieOwner = movie.owner.toString().replace('new ObjectId("', '');
-      if (movieOwner !== req.user._id) {
+      if (movie.owner.toString() !== req.user._id) {
         next(new ForbiddenError('Можно удалять только свои карточки'));
       } else {
         Movie.findByIdAndRemove(req.params.id)

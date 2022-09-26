@@ -9,12 +9,10 @@ const createUserValidation = celebrate({
         'string.min': 'Минимальная длина имени- 2 символа',
         'string.max': 'Максимальная длина имени - 30 символов',
       }),
-    email: Joi.string().email().required().custom((value, helpers) => {
-      if (validator.isEmail(value)) {
-        return value;
-      }
-      return helpers.message('Некорректный адрес email');
-    }),
+    email: Joi.string().email().required()
+      .messages({
+        'any.required': 'Поле "email" должно быть заполнено',
+      }),
     password: Joi.string().required()
       .messages({
         'any.required': 'Поле "Пароль" должно быть заполнено',
@@ -31,8 +29,8 @@ const loginValidation = celebrate({
 
 const updateUserProfileValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().email(),
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().email().required(),
   }),
 });
 
