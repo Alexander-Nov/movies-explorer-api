@@ -56,12 +56,10 @@ const createMovieValidation = celebrate({
       .messages({
         'any.required': 'Отсутствует значение в поле "description"',
       }),
-    image: Joi.string().required().custom((value, helpers) => {
-      if (validator.isURL(value)) {
-        return value;
-      }
-      return helpers.message('Некорректная ссылка в поле "image"');
-    }),
+    image: Joi.string().required()
+      .messages({
+        'any.required': 'Отсутствует значение в поле "description"',
+      }),
     trailerLink: Joi.string().required()
       .messages({
         'any.required': 'Отсутствует значение в поле "trailerLink"',
