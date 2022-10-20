@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
+// const validator = require('validator');
 
 const createUserValidation = celebrate({
   body: Joi.object().keys({
@@ -58,7 +58,7 @@ const createMovieValidation = celebrate({
       }),
     image: Joi.string().required()
       .messages({
-        'any.required': 'Отсутствует значение в поле "description"',
+        'any.required': 'Отсутствует значение в поле "image"',
       }),
     trailerLink: Joi.string().required()
       .messages({
@@ -72,12 +72,10 @@ const createMovieValidation = celebrate({
       .messages({
         'any.required': 'Отсутствует значение в поле "nameEN"',
       }),
-    thumbnail: Joi.string().required().custom((value, helpers) => {
-      if (validator.isURL(value)) {
-        return value;
-      }
-      return helpers.message('Некорректная ссылка в поле "thumbnail"');
-    }),
+    thumbnail: Joi.string().required()
+      .messages({
+        'any.required': 'Отсутствует значение в поле "image"',
+      }),
     movieId: Joi.number().required()
       .messages({
         'any.required': 'Отсутствует значение в поле "movieId"',
