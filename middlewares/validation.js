@@ -74,7 +74,7 @@ const createMovieValidation = celebrate({
       }),
     thumbnail: Joi.string().required()
       .messages({
-        'any.required': 'Отсутствует значение в поле "image"',
+        'any.required': 'Отсутствует значение в поле "thumbnail"',
       }),
     movieId: Joi.number().required()
       .messages({
