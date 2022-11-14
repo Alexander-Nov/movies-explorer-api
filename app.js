@@ -21,6 +21,8 @@ const options = {
   origin: [
     'https://localhost:3010',
     'http://localhost:3010',
+    'https://diplom.novoselov.nomorepartiesxyz.ru',
+    'http://diplom.novoselov.nomorepartiesxyz.ru',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
